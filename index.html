@@ -1,0 +1,934 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>اطلب الآن | نيشا</title>
+
+  <style>
+    /* =========================
+      هوية نيشا
+      أخضر زيتوني: #4F6F52
+      بيج كريمي:  #F3ECDC
+      أسود مطفي:  #2B2B2B
+    ========================== */
+    :root{
+      --green:#4F6F52;
+      --beige:#F3ECDC;
+      --ink:#2B2B2B;
+      --muted:#6b6b6b;
+
+      --card:#ffffff;
+      --stroke: rgba(0,0,0,.08);
+      --shadow: 0 14px 28px rgba(0,0,0,.10);
+
+      --r: 18px;
+      --r2: 16px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--beige), #fff);
+      color: var(--ink);
+    }
+    a{ color:inherit; text-decoration:none; }
+
+    /* ===== هيدر علوي ===== */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(243,236,220,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 900;
+      color: var(--green);
+      font-size: 16px;
+    }
+    .mark{
+      width:42px;height:42px;
+      border-radius: 14px;
+      background: var(--green);
+      color: var(--beige);
+      display:grid;
+      place-items:center;
+      font-weight: 900;
+      font-size: 20px;
+      box-shadow: 0 10px 22px rgba(79,111,82,.20);
+    }
+    .topBtns{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .btn{
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      border-radius: 14px;
+      padding:10px 12px;
+      font-weight: 900;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      user-select:none;
+    }
+    .btn.primary{
+      background: var(--green);
+      color:#fff;
+      border-color: transparent;
+    }
+
+    /* ===== تخطيط الصفحة ===== */
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 14px;
+      padding-bottom: 92px; /* مساحة لشريط السلة السفلي */
+      display:grid;
+      gap: 14px;
+    }
+
+    /* ===== عروض نيشا ===== */
+    .offersBox{
+      background: linear-gradient(135deg, rgba(79,111,82,.92), rgba(79,111,82,.78));
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 22px;
+      box-shadow: 0 18px 38px rgba(0,0,0,.12);
+      color: var(--beige);
+      overflow:hidden;
+    }
+    .offersHead{
+      padding: 14px 14px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .offersHead strong{
+      font-size: 16px;
+      font-weight: 1000;
+    }
+    .offersHead span{
+      font-size: 12px;
+      opacity:.9;
+      font-weight: 900;
+    }
+    .offersRow{
+      display:flex;
+      gap:10px;
+      padding: 0 14px 14px;
+      overflow:auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .offerCard{
+      min-width: 240px;
+      scroll-snap-align: start;
+      background: rgba(243,236,220,.12);
+      border: 1px solid rgba(243,236,220,.22);
+      border-radius: 18px;
+      padding: 12px;
+      display:grid;
+      gap:6px;
+    }
+    .offerCard .t{
+      font-weight: 1000;
+      font-size: 14px;
+    }
+    .offerCard .d{
+      font-size: 12px;
+      opacity: .95;
+      line-height: 1.5;
+    }
+    .offerCard .tag{
+      margin-top:6px;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(243,236,220,.92);
+      color: var(--green);
+      font-weight: 1000;
+      font-size: 12px;
+    }
+
+    /* ===== بطاقة قسم ===== */
+    .sectionCard{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .sectionHead{
+      padding: 12px 14px;
+      background: linear-gradient(90deg, rgba(79,111,82,.10), rgba(243,236,220,.65));
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size: 16px;
+      font-weight: 1000;
+      color: var(--green);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .chip{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.10);
+      background:#fff;
+      color: var(--muted);
+      white-space:nowrap;
+      font-weight:900;
+    }
+
+    /* ===== عناصر المنيو ===== */
+    .items{
+      padding: 12px;
+      display:grid;
+      gap:10px;
+    }
+
+    .item{
+      border:1px solid rgba(0,0,0,.08);
+      border-radius: 18px;
+      padding: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      background:#fff;
+    }
+
+    /* صورة دائرية مناسبة للجوال */
+    .avatar{
+      width:62px;height:62px;
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.08);
+      flex: 0 0 auto;
+      background: radial-gradient(circle at 30% 20%, rgba(79,111,82,.18), rgba(243,236,220,.55));
+    }
+    .avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .info{
+      flex: 1;
+      min-width: 0;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    /* خط كبير وواضح */
+    .nameRow{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .name{
+      font-size: 16px;
+      font-weight: 1000;
+      line-height: 1.2;
+    }
+    .sub{
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+    .price{
+      font-size: 16px;
+      font-weight: 1000;
+      color: var(--green);
+      white-space:nowrap;
+    }
+
+    /* أزرار الكمية أكبر للجوال */
+    .qtyRow{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      justify-content:flex-end;
+      margin-top: 4px;
+    }
+    .qbtn{
+      width:40px;height:40px;
+      border-radius: 14px;
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      font-weight: 1000;
+      cursor:pointer;
+      font-size: 18px;
+    }
+    .qty{
+      min-width: 40px;
+      text-align:center;
+      font-weight: 1000;
+      font-size: 16px;
+    }
+
+    /* ===== شريط السلة السفلي ===== */
+    .cartBar{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(0,0,0,.10);
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .cartMeta{
+      display:flex;
+      flex-direction:column;
+      gap: 4px;
+    }
+    .cartMeta .mini{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight:900;
+    }
+    .cartMeta .big{
+      font-size: 16px;
+      font-weight: 1000;
+      color: var(--ink);
+    }
+    .cartActions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .bubble{
+      background: rgba(79,111,82,.10);
+      border:1px solid rgba(79,111,82,.25);
+      color: var(--green);
+      font-weight:1000;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      white-space:nowrap;
+    }
+
+    /* ===== نافذة الإتمام (Popup) ===== */
+    .modalBack{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      display:none;
+      align-items:flex-end;
+      justify-content:center;
+      z-index: 60;
+      padding: 14px;
+    }
+    .modal{
+      width: min(560px, 100%);
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 20px 45px rgba(0,0,0,.22);
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.08);
+    }
+    .modalHead{
+      padding: 12px 14px;
+      background: linear-gradient(90deg, rgba(79,111,82,.10), rgba(243,236,220,.75));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .modalHead strong{
+      color: var(--green);
+      font-size: 16px;
+      font-weight: 1000;
+    }
+    .x{
+      width:42px;height:42px;
+      border-radius: 16px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#fff;
+      cursor:pointer;
+      font-weight: 1000;
+    }
+    .modalBody{
+      padding: 14px;
+      display:grid;
+      gap: 12px;
+    }
+
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 6px;
+      font-weight: 900;
+    }
+    input, select, textarea{
+      width:100%;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius: 14px;
+      padding: 12px 12px;
+      font-size: 15px;
+      outline:none;
+      background:#fff;
+    }
+    textarea{ min-height: 90px; resize: vertical; }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 520px){
+      .row{ grid-template-columns:1fr; }
+    }
+
+    .summary{
+      border-top: 1px dashed rgba(0,0,0,.22);
+      padding-top: 12px;
+      display:grid;
+      gap: 6px;
+      font-size: 14px;
+    }
+    .line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .total{
+      color: var(--green);
+      font-weight: 1000;
+      font-size: 18px;
+    }
+
+    .note{
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="mark">ن</div>
+      <div>طلبات نيشا</div>
+    </div>
+    <div class="topBtns">
+      <a class="btn" href="index.html">رجوع</a>
+      <button class="btn primary" id="openCheckoutTop">إتمام الطلب</button>
+    </div>
+  </header>
+
+  <!-- عروض نيشا -->
+  <section class="wrap" style="padding-bottom:0;">
+    <div class="offersBox">
+      <div class="offersHead">
+        <strong>عروض نيشا</strong>
+        <span>تحديث مستمر</span>
+      </div>
+      <div class="offersRow" id="offersRow"></div>
+    </div>
+  </section>
+
+  <main class="wrap" id="menuRoot"></main>
+
+  <!-- شريط السلة السفلي -->
+  <div class="cartBar">
+    <div class="cartMeta">
+      <div class="mini">السلة</div>
+      <div class="big" id="cartTotal">0 ر.س</div>
+    </div>
+
+    <div class="cartActions">
+      <span class="bubble" id="cartCount">0 قطعة</span>
+      <button class="btn primary" id="openCheckout">إتمام</button>
+    </div>
+  </div>
+
+  <!-- نافذة الإتمام -->
+  <div class="modalBack" id="modalBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-label="إتمام الطلب">
+      <div class="modalHead">
+        <strong>إتمام الطلب</strong>
+        <button class="x" id="closeModal">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <div class="row">
+          <div>
+            <label>الاسم</label>
+            <input id="name" placeholder="مثال: عبدالله" />
+          </div>
+          <div>
+            <label>رقم الجوال</label>
+            <input id="phone" placeholder="05xxxxxxxx" inputmode="tel" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>استلام / توصيل</label>
+            <select id="type">
+              <option value="استلام">استلام</option>
+              <option value="توصيل">توصيل</option>
+            </select>
+          </div>
+          <div>
+            <label>الدفع</label>
+            <select id="pay">
+              <option value="شبكة">شبكة</option>
+              <option value="كاش">كاش</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" id="addrRow" style="display:none;">
+          <div style="grid-column:1/-1;">
+            <label>عنوان التوصيل / رابط اللوكيشن</label>
+            <input id="addr" placeholder="اكتب العنوان أو ضع رابط Google Maps" />
+          </div>
+        </div>
+
+        <div>
+          <label>ملاحظات (اختياري)</label>
+          <textarea id="notes" placeholder="بدون بصل / زيادة جبن / ..."></textarea>
+        </div>
+
+        <div class="summary">
+          <div class="line"><span>مجموع الأصناف</span><strong id="sub">0 ر.س</strong></div>
+          <div class="line"><span>رسوم التوصيل</span><strong id="fee">0 ر.س</strong></div>
+          <div class="line"><span><strong>الإجمالي النهائي</strong></span><span class="total" id="final">0 ر.س</span></div>
+        </div>
+
+        <button class="btn primary" id="sendWA" style="width:100%; justify-content:center; padding:14px 12px;">
+          إرسال الطلب على واتساب
+        </button>
+
+        <div class="note">
+          ملاحظة: سيتم فتح واتساب برسالة جاهزة — العميل يضغط “إرسال”.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================
+      ✅ عدّل هنا فقط:
+      1) رقم الواتساب بصيغة دولية بدون +
+      2) رسوم التوصيل ثابت 8 ريال
+      3) المنيو + صور الأصناف (دائرية تلقائياً)
+    ========================================================== */
+
+    // ✅ رقم التجربة (0595714236 بصيغة دولية)
+    const WHATSAPP_NUMBER = "966595714236";
+    const DELIVERY_FEE = 8;
+
+    // ✅ عروض نيشا (عدّلها كما تريد)
+    const OFFERS = [
+      { title:"عرض بوكس نيشا", desc:"بوكس جاهز للمشاركة — مناسب للدوام واللمّة.", tag:"الأكثر طلبًا" },
+      { title:"عرض الميني", desc:"3 ميني باختيارك — سريع وخفيف.", tag:"سريع" },
+      { title:"عرض الخلية", desc:"الخلية الكلاسيك بسعر أفضل لفترة محدودة.", tag:"Limited" }
+    ];
+
+    const MENU = [
+      {
+        section: "🥙 المناقيش",
+        items: [
+          { name:"دجاج", price:12, img:"https://images.unsplash.com/photo-1604908812537-4f88bb9d3f49?auto=format&fit=crop&w=300&q=70" },
+          { name:"مكس أجبان", price:12, img:"https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=300&q=70" },
+          { name:"زعتر", price:11, img:"https://images.unsplash.com/photo-1604908554606-77b8e4a3a5c1?auto=format&fit=crop&w=300&q=70" },
+          { name:"محمره", price:11, img:"https://images.unsplash.com/photo-1604908554571-0c1e9c7b7a0b?auto=format&fit=crop&w=300&q=70" },
+          { name:"لبنه", price:11, img:"https://images.unsplash.com/photo-1604908554244-5b0b3db2bf0c?auto=format&fit=crop&w=300&q=70" },
+          { name:"جبن", price:11, img:"https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=300&q=70" },
+          { name:"مارجريتا", price:11, img:"https://images.unsplash.com/photo-1548365328-8b849e6f3f98?auto=format&fit=crop&w=300&q=70" },
+          { name:"سبانخ", price:11, img:"https://images.unsplash.com/photo-1604908554088-3c9b4b8f0a3b?auto=format&fit=crop&w=300&q=70" },
+          { name:"عكاوي", price:11, img:"https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=300&q=70" },
+        ]
+      },
+      {
+        section: "🍕 البيتزا",
+        items: [
+          { name:"دجاج", price:20, img:"https://images.unsplash.com/photo-1548365328-8b849e6f3f98?auto=format&fit=crop&w=300&q=70" },
+          { name:"لحم", price:22, img:"https://images.unsplash.com/photo-1593560708920-61dd98c46a66?auto=format&fit=crop&w=300&q=70" },
+          { name:"ببروني", price:22, img:"https://images.unsplash.com/photo-1601924582970-9238bcb495d9?auto=format&fit=crop&w=300&q=70" },
+          { name:"مكس", price:23, img:"https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?auto=format&fit=crop&w=300&q=70" },
+          { name:"نيشا", price:25, img:"https://images.unsplash.com/photo-1601924638867-3ec5f3d79f0a?auto=format&fit=crop&w=300&q=70" },
+          { name:"خضار", price:20, img:"https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&w=300&q=70" },
+          { name:"عش البلبل", price:20, img:"https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=300&q=70" },
+        ]
+      },
+      {
+        section: "🐝 الخلية",
+        items: [
+          { name:"كلاسيك صغير", price:15, img:"https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=300&q=70" },
+          { name:"كلاسيك كبير", price:30, img:"https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=300&q=70" },
+          { name:"بيكان صغير", price:18, img:"https://images.unsplash.com/photo-1509440159598-7f9a04f8a682?auto=format&fit=crop&w=300&q=70" },
+          { name:"بيكان كبير", price:35, img:"https://images.unsplash.com/photo-1509440159598-7f9a04f8a682?auto=format&fit=crop&w=300&q=70" },
+          { name:"سينابون صغير", price:17, img:"https://images.unsplash.com/photo-1514516870926-206f2b0c5f7f?auto=format&fit=crop&w=300&q=70" },
+          { name:"سينابون كبير", price:33, img:"https://images.unsplash.com/photo-1514516870926-206f2b0c5f7f?auto=format&fit=crop&w=300&q=70" },
+        ]
+      },
+      {
+        section: "🥐 معجنات ميني",
+        items: [
+          { name:"إنصاف قمر (دجاج/جبن)", price:9, img:"https://images.unsplash.com/photo-1587248720327-8eb72564be1a?auto=format&fit=crop&w=300&q=70" },
+          { name:"كاب دجاج جبن", price:9, img:"https://images.unsplash.com/photo-1587248720327-8eb72564be1a?auto=format&fit=crop&w=300&q=70" },
+          { name:"بيتزا", price:9, img:"https://images.unsplash.com/photo-1548365328-8b849e6f3f98?auto=format&fit=crop&w=300&q=70" },
+          { name:"محمره", price:9, img:"https://images.unsplash.com/photo-1604908554571-0c1e9c7b7a0b?auto=format&fit=crop&w=300&q=70" },
+          { name:"عكاوي", price:9, img:"https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=300&q=70" },
+          { name:"مكس أجبان", price:9, img:"https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=300&q=70" },
+          { name:"زعتر", price:9, img:"https://images.unsplash.com/photo-1604908554606-77b8e4a3a5c1?auto=format&fit=crop&w=300&q=70" },
+        ]
+      },
+      {
+        section: "🫓 خبز نيشا المحشي",
+        items: [
+          { name:"دجاج", price:13, img:"https://images.unsplash.com/photo-1604908812537-4f88bb9d3f49?auto=format&fit=crop&w=300&q=70" },
+          { name:"لحم", price:14, img:"https://images.unsplash.com/photo-1593560708920-61dd98c46a66?auto=format&fit=crop&w=300&q=70" },
+          { name:"أجبان", price:12, img:"https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=300&q=70" },
+          { name:"خلطة نيشا", price:15, img:"https://images.unsplash.com/photo-1601924638867-3ec5f3d79f0a?auto=format&fit=crop&w=300&q=70" },
+        ]
+      },
+      {
+        section: "📦 بوكسات",
+        items: [
+          { name:"بوكس نيشا", price:24, img:"https://images.unsplash.com/photo-1606851091765-6e7f78d851b6?auto=format&fit=crop&w=300&q=70" },
+          { name:"بوكس جماعتنا", price:49, img:"https://images.unsplash.com/photo-1606851091765-6e7f78d851b6?auto=format&fit=crop&w=300&q=70" },
+          { name:"بوكس لمتنا", price:80, img:"https://images.unsplash.com/photo-1606851091765-6e7f78d851b6?auto=format&fit=crop&w=300&q=70" },
+        ]
+      },
+
+      /* ✅ قسم الإضافات (6 أصناف فاضية - أنت تكتبها) */
+      {
+        section: "➕ الإضافات",
+        items: [
+          { name:"إضافة 1", price:0, img:"" },
+          { name:"إضافة 2", price:0, img:"" },
+          { name:"إضافة 3", price:0, img:"" },
+          { name:"إضافة 4", price:0, img:"" },
+          { name:"إضافة 5", price:0, img:"" },
+          { name:"إضافة 6", price:0, img:"" },
+        ]
+      },
+    ];
+
+    /* ===========================
+      كود التشغيل
+    ============================ */
+    const menuRoot = document.getElementById("menuRoot");
+    const cartTotalEl = document.getElementById("cartTotal");
+    const cartCountEl = document.getElementById("cartCount");
+    const offersRow = document.getElementById("offersRow");
+
+    const modalBack = document.getElementById("modalBack");
+    const closeModal = document.getElementById("closeModal");
+    const openCheckout = document.getElementById("openCheckout");
+    const openCheckoutTop = document.getElementById("openCheckoutTop");
+
+    const nameEl = document.getElementById("name");
+    const phoneEl = document.getElementById("phone");
+    const typeEl = document.getElementById("type");
+    const payEl = document.getElementById("pay");
+    const addrRow = document.getElementById("addrRow");
+    const addrEl = document.getElementById("addr");
+    const notesEl = document.getElementById("notes");
+
+    const subEl = document.getElementById("sub");
+    const feeEl = document.getElementById("fee");
+    const finalEl = document.getElementById("final");
+    const sendWA = document.getElementById("sendWA");
+
+    // cart key: "section|name" => {qty, price}
+    const cart = new Map();
+    const keyOf = (section, item) => `${section}|${item.name}`;
+
+    function renderOffers(){
+      if(!offersRow) return;
+      offersRow.innerHTML = "";
+      OFFERS.forEach(o => {
+        const c = document.createElement("div");
+        c.className = "offerCard";
+        c.innerHTML = `
+          <div class="t">${o.title}</div>
+          <div class="d">${o.desc}</div>
+          <div class="tag">${o.tag}</div>
+        `;
+        offersRow.appendChild(c);
+      });
+    }
+
+    function updateQty(k, price, delta){
+      const cur = cart.get(k)?.qty || 0;
+      const next = Math.max(0, cur + delta);
+      if(next === 0) cart.delete(k);
+      else cart.set(k, { qty: next, price });
+      render();
+    }
+
+    function totals(){
+      let sub = 0;
+      let pieces = 0;
+
+      for(const v of cart.values()){
+        sub += v.qty * v.price;
+        pieces += v.qty;
+      }
+
+      const isDelivery = (typeEl.value === "توصيل");
+      const fee = isDelivery ? DELIVERY_FEE : 0;
+      const final = sub + fee;
+
+      return { sub, fee, final, pieces };
+    }
+
+    function render(){
+      menuRoot.innerHTML = "";
+
+      MENU.forEach(sec => {
+        const card = document.createElement("section");
+        card.className = "sectionCard";
+
+        const head = document.createElement("div");
+        head.className = "sectionHead";
+        head.innerHTML = `<h2>${sec.section}</h2><span class="chip">اختر + / -</span>`;
+        card.appendChild(head);
+
+        const items = document.createElement("div");
+        items.className = "items";
+
+        sec.items.forEach(item => {
+          const k = keyOf(sec.section, item);
+          const qty = cart.get(k)?.qty || 0;
+
+          const row = document.createElement("div");
+          row.className = "item";
+
+          const avatar = document.createElement("div");
+          avatar.className = "avatar";
+          const img = document.createElement("img");
+          img.alt = item.name;
+          img.loading = "lazy";
+          img.src = item.img || "";
+          img.onerror = () => { img.style.display = "none"; };
+          avatar.appendChild(img);
+
+          const info = document.createElement("div");
+          info.className = "info";
+
+          const nameRow = document.createElement("div");
+          nameRow.className = "nameRow";
+
+          const left = document.createElement("div");
+          left.style.minWidth = "0";
+          left.innerHTML = `
+            <div class="name">${item.name}</div>
+            <div class="sub">طازج يوميًا • نيشا</div>
+          `;
+
+          const price = document.createElement("div");
+          price.className = "price";
+          price.textContent = `${item.price} ر.س`;
+
+          nameRow.append(left, price);
+
+          const qtyRow = document.createElement("div");
+          qtyRow.className = "qtyRow";
+
+          const minus = document.createElement("button");
+          minus.className = "qbtn";
+          minus.textContent = "−";
+          minus.onclick = () => updateQty(k, item.price, -1);
+
+          const q = document.createElement("div");
+          q.className = "qty";
+          q.textContent = qty;
+
+          const plus = document.createElement("button");
+          plus.className = "qbtn";
+          plus.textContent = "+";
+          plus.onclick = () => updateQty(k, item.price, +1);
+
+          qtyRow.append(minus, q, plus);
+
+          info.append(nameRow, qtyRow);
+
+          row.append(avatar, info);
+          items.appendChild(row);
+        });
+
+        card.appendChild(items);
+        menuRoot.appendChild(card);
+      });
+
+      // تحديث ملخص السلة
+      const { sub, fee, final, pieces } = totals();
+      cartTotalEl.textContent = `${final} ر.س`;
+      cartCountEl.textContent = `${pieces} قطعة`;
+
+      // تحديث داخل النافذة
+      subEl.textContent = `${sub} ر.س`;
+      feeEl.textContent = `${fee} ر.س`;
+      finalEl.textContent = `${final} ر.س`;
+    }
+
+    // فتح/إغلاق نافذة الإتمام
+    function openModal(){
+      if(cart.size === 0){
+        alert("اختر أصناف أولاً قبل الإتمام.");
+        return;
+      }
+      modalBack.style.display = "flex";
+      modalBack.setAttribute("aria-hidden", "false");
+      render();
+    }
+    function close(){
+      modalBack.style.display = "none";
+      modalBack.setAttribute("aria-hidden", "true");
+    }
+
+    openCheckout.onclick = openModal;
+    openCheckoutTop.onclick = openModal;
+    closeModal.onclick = close;
+
+    modalBack.addEventListener("click", (e) => {
+      if(e.target === modalBack) close();
+    });
+
+    // إظهار حقل العنوان للتوصيل + تحديث الفاتورة
+    typeEl.addEventListener("change", () => {
+      addrRow.style.display = (typeEl.value === "توصيل") ? "grid" : "none";
+      render();
+    });
+
+    function buildMessage(){
+      const { sub, fee, final } = totals();
+      const name = nameEl.value.trim() || "غير مذكور";
+      const phone = phoneEl.value.trim() || "غير مذكور";
+      const type = typeEl.value;
+      const pay = payEl.value;
+      const addr = (addrEl?.value || "").trim();
+      const notes = notesEl.value.trim();
+
+      const lines = [];
+      for(const [k, v] of cart.entries()){
+        const itemName = k.split("|")[1];
+        lines.push(`- ${itemName} ×${v.qty} = ${v.qty * v.price} ر.س`);
+      }
+
+      let msg =
+`طلب جديد - نيشا
+--------------------
+الاسم: ${name}
+الجوال: ${phone}
+نوع الطلب: ${type}
+الدفع: ${pay}`;
+
+      if(type === "توصيل"){
+        msg += `\nرسوم التوصيل: ${fee} ر.س`;
+        msg += `\nالعنوان/اللوكيشن: ${addr || "غير مذكور"}`;
+      }
+
+      msg += `
+--------------------
+الطلب:
+${lines.join("\n")}
+--------------------
+مجموع الأصناف: ${sub} ر.س
+الإجمالي النهائي: ${final} ر.س`;
+
+      if(notes) msg += `\nملاحظات: ${notes}`;
+
+      return msg;
+    }
+
+    function onlyDigits(s){
+      return (s || "").replace(/\D/g, "");
+    }
+
+    function validateCheckout(){
+      const name = nameEl.value.trim();
+      const phoneRaw = phoneEl.value.trim();
+      const phoneDigits = onlyDigits(phoneRaw);
+
+      if(!name){
+        alert("اكتب الاسم أولاً.");
+        return false;
+      }
+
+      if(phoneDigits.length < 9){
+        alert("اكتب رقم جوال صحيح.");
+        return false;
+      }
+
+      const looksOK =
+        phoneDigits.startsWith("966") ||
+        phoneDigits.startsWith("05") ||
+        phoneDigits.startsWith("5");
+
+      if(!looksOK){
+        alert("رقم الجوال غير واضح. اكتب 05xxxxxxxx أو 5xxxxxxxx.");
+        return false;
+      }
+
+      if(typeEl.value === "توصيل"){
+        const addr = (addrEl.value || "").trim();
+        if(!addr){
+          alert("للتوصيل: اكتب العنوان أو رابط اللوكيشن.");
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    // إرسال واتساب (بعد التحقق)
+    sendWA.addEventListener("click", () => {
+      if(cart.size === 0){
+        alert("السلة فاضية.");
+        return;
+      }
+      if(!validateCheckout()) return;
+
+      const msg = encodeURIComponent(buildMessage());
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank", "noopener");
+    });
+
+    // تشغيل أولي
+    renderOffers();
+    render();
+  </script>
+</body>
+</html>
